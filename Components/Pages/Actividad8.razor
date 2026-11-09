@@ -1,0 +1,80 @@
+@page "/cambio-moneda"
+@rendermode InteractiveServer
+
+<h3>Cambio de moneda</h3>
+
+<div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+        <label class="col-sm-2 col-form-label">Pesos</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" @bind="pesos" min="1" step="1" />
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <button class="btn btn-primary" @onclick="Convertir">
+                Convertir
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-2 align-items-center">
+        <label class="col-sm-2 col-form-label">Dólares</label>
+        <div class="col-sm-10">
+            <input class="form-control" value="@dolares.ToString("F2")" disabled />
+        </div>
+    </div>
+
+    <div class="row mb-2 align-items-center">
+        <label class="col-sm-2 col-form-label">Euros</label>
+        <div class="col-sm-10">
+            <input class="form-control" value="@euros.ToString("F2")" disabled />
+        </div>
+    </div>
+
+    <div class="row mb-2 align-items-center">
+        <label class="col-sm-2 col-form-label">Libras</label>
+        <div class="col-sm-10">
+            <input class="form-control" value="@libras.ToString("F2")" disabled />
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert alert-warning mt-2" role="alert">
+            @mensaje
+        </div>
+    }
+</div>
+
+@code {
+    private const decimal TipoCambioDolar = 17.00m;
+    private const decimal TipoCambioEuro = 18.50m;
+    private const decimal TipoCambioLibra = 22.00m;
+
+    private int pesos = 0;
+    private decimal dolares = 0;
+    private decimal euros = 0;
+    private decimal libras = 0;
+    private string mensaje = "";
+
+    private void Convertir()
+    {
+        mensaje = "";
+
+        if (pesos <= 0)
+        {
+            mensaje = "Por favor, ingresa un número entero positivo mayor a cero.";
+            dolares = 0;
+            euros = 0;
+            libras = 0;
+            return;
+        }
+
+        dolares = pesos / TipoCambioDolar;
+        euros = pesos / TipoCambioEuro;
+        libras = pesos / TipoCambioLibra;
+    }
+}

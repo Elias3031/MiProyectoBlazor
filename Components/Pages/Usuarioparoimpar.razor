@@ -1,0 +1,56 @@
+@page "/usuario-paroimpar"
+@rendermode InteractiveServer
+
+<div class="mb-3" style="max-width: 300px;">
+    <label for="numeroInput" class="form-label" style="font-weight: bold;">Ingrese un número:</label>
+    <input id="numeroInput" 
+           type="number" 
+           class="form-control" 
+           @bind="NumeroLimite" 
+           @bind:event="oninput" 
+           min="0"
+           placeholder="Ej. 10" />
+</div>
+
+@if (NumeroLimite.HasValue && NumeroLimite >= 0)
+{
+    <div class="row" style="max-width: 500px;">
+        <!-- Columna de Pares -->
+        <div class="col-6">
+            <div class="card border-primary mb-3">
+                <div class="card-header bg-primary text-white font-weight-bold text-center">
+                    Pares
+                </div>
+                <ul class="list-group list-group-flush text-center" style="max-height: 250px; overflow-y: auto;">
+                    @for (int i = 0; i <= NumeroLimite.Value; i += 2)
+                    {
+                        <li class="list-group-item">@i</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <!-- Columna de Impares -->
+        <div class="col-6">
+            <div class="card border-success mb-3">
+                <div class="card-header bg-success text-white font-weight-bold text-center">
+                    Impares
+                </div>
+                <ul class="list-group list-group-flush text-center" style="max-height: 250px; overflow-y: auto;">
+                    @for (int i = 1; i <= NumeroLimite.Value; i += 2)
+                    {
+                        <li class="list-group-item">@i</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-muted">Ingrese un número entero positivo para ver la lista.</p>
+}
+
+@code {
+    public int? NumeroLimite { get; set; } = 10;
+}
